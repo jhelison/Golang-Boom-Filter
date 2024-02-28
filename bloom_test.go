@@ -32,9 +32,15 @@ func (suite *BloomTestSuite) TestBloom() {
 			outcome:  true,
 		},
 		{
-			name:     "Not pass, not in set",
+			name:     "Pass, false positive",
 			inputs:   []string{"test", "this is a test", "more test asd"},
-			testWord: "test2123",
+			testWord: "test 2123",
+			outcome:  false,
+		},
+		{
+			name:     "Pass, false positive",
+			inputs:   []string{"test", "this is a test", "more test asd"},
+			testWord: "random word",
 			outcome:  false,
 		},
 		{
@@ -59,8 +65,8 @@ func (suite *BloomTestSuite) TestBloom() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			bloom := main.NewBloom(
+				50,
 				20,
-				5,
 				main.FNVHashStrategy{},
 			)
 			for _, input := range tc.inputs {
